@@ -53,39 +53,27 @@ histplot = callsout['calls_out'].plot(kind='line',logy=False, figsize=(20,5))
 
 #setting values cero to NAN 
 callsout = callsout.replace(0, 0.1)
+calloutlog = callsout['callsout']
 #callsout = callsout.replace(0, numpy.nan)
 
 #-Transforming data into log 
-callsoutlog = numpy.log(callsout['calls_out'])
+callsout['calls_out']= numpy.log(callsout['calls_out'])
 
 #Normality test
 #histogram to check normality
-histplot = callsoutlog.plot(kind='hist',logy=False, figsize=(20,5))
+histplot = callsout.plot(kind='hist',logy=False, figsize=(20,5))
 #boxplot to check for outliers
-boxplot = callsoutlog.plot(kind='box',logy=False, figsize=(20,5))
+boxplot = callsout.plot(kind='box',logy=False, figsize=(20,5))
 
-scipy.stats.normaltest(callsoutlog, axis=0)
+scipy.stats.normaltest(callsout, axis=0)
 #NormaltestResult(statistic=803869.62940951809, pvalue=0.0)
-scipy.stats.shapiro(callsoutlog, a=None, reta=False)
+scipy.stats.shapiro(callsout, a=None, reta=False)
 #(0.9956305623054504, 0.0)
-scipy.stats.anderson(callsoutlog, dist='norm')
+scipy.stats.anderson(callsout, dist='norm')
 #AndersonResult(statistic=87569.946015860885, critical_values=array([ 0.576,  0.656,  0.787,  0.918,  1.092]), significance_level=array([ 15. ,  10. ,   5. ,   2.5,   1. ]))
 #AndersonResult(statistic=0.27488219365477562, critical_values=array([ 0.576,  0.656,  0.787,  0.918,  1.092]), significance_level=array([ 15. ,  10. ,   5. ,   2.5,   1. ]))
-scipy.stats.t.fit(callsoutlog)
+scipy.stats.t.fit(callsout)
 
 callsout.to_csv(path_or_buf = data_path + 'callout_normal_dic.csv', sep=',')
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 print 'enjoy! bye'
