@@ -12,3 +12,6 @@ here you'll find:
 <code>ts_cellid_onev.py</code>: telecom Italy open data preprocessing <br>
 <code>exploration.py</code>: telecom Italy open data statistical exploration <br>
 <code>preanova.py</code>: merging of telecom data and temperature data for anova analysis.<br>
+
+<strong>analysis </strong>: <br>
+<code>twowayanova.R</code>: Two way ANOVA with unequal sample sizes <br>
