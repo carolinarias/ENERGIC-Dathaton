@@ -15,3 +15,14 @@ here you'll find:
 
 <strong>analysis </strong>: <br>
 <code>twowayanova.R</code>: Two way ANOVA with unequal sample sizes <br>
+
+<strong>data </strong>: <br>
+<i>cellid_wunder2013stations</i>: table relating Milano grid cells id with weather underground stations<br>
+<i>stationsdata.zip</i>: weather data extracted from weather underground API nov - dic 2013<br>
+<i>stationsdata_aggregated.zip</i>: csv files of weather data aggregated by hour (mean) dic 2013<br>
+<i>data_dic.csv</i>: one csv file with weather data aggregated by hour (mean) dic 2013 <br>
+<i>datamerged_dic.csv</i>: one csv file with weather data aggregated by hour (mean), together with Milano grid cells id. dic 2013 <br>
+<i>callsout_dic.csv</i>: one csv file with outgoing calls in the city of Milano during dic 2013<br>
+<i>callsout_normal_dic.csv</i>: one csv file with outgoing calls in the city of Milano during dic 2013, normalized (log(x)) <br>
+<i>anovadata.csv</i>: one csv file with outgoing calls in the city of Milano during dic 2013, classified by day type (weekends and workdays) and temperature levels (high, medium, maximum) <br>
+
