@@ -21,8 +21,13 @@ here you'll find:
 <i>stationsdata.zip</i>: weather data extracted from weather underground API nov - dic 2013<br>
 <i>stationsdata_aggregated.zip</i>: csv files of weather data aggregated by hour (mean) dic 2013<br>
 <i>data_dic.csv</i>: one csv file with weather data aggregated by hour (mean) dic 2013 <br>
-<i>datamerged_dic.zip</i>: one csv file with weather data aggregated by hour (mean), together with Milano grid cells id. dic 2013 <br>
+<p>Large files. Download follwing the dropbox link:</p>
+<i>datamerged_dic.csv</i>: one csv file with weather data aggregated by hour (mean), together with Milano grid cells id. dic 2013 <br>
+https://www.dropbox.com/s/ku3qvxi1v25zn80/datamerged_dic.csv?dl=0<br>
 <i>callsout_dic.csv</i>: one csv file with outgoing calls in the city of Milano during dic 2013<br>
+https://www.dropbox.com/s/8tsvmb8vl5zr25e/callsout_dic.tsv?dl=0<br>
 <i>callsout_normal_dic.csv</i>: one csv file with outgoing calls in the city of Milano during dic 2013, normalized (log(x)) <br>
+https://www.dropbox.com/s/p54x3955ql86m0e/callout_normal_dic.csv?dl=0<br>
 <i>anovadata.csv</i>: one csv file with outgoing calls in the city of Milano during dic 2013, classified by day type (weekends and workdays) and temperature levels (high, medium, maximum) <br>
+https://www.dropbox.com/s/mbm5p2cfefuci7v/anovadata.csv?dl=0<br>
 
