@@ -11,20 +11,30 @@
 #R version: 3.3.0 (2016-05-03)
 #------------------------------------------------------------------------------------------------------------------
 
+library(car)
 
 
+#---------------------------#
+#Initial data exploration
+#---------------------------#
 #reading data
-anovadata <- read.csv('/media/sf_2_PhD_2013_-2014/1PhD_WorkDocs/PhD_Data-calculations/data/wundermap/nov_dic_2013/csv/anovadata.csv')
+anovadata <- read.csv(your_path + 'anovadata.csv')
 
 #seeing 10 first rows
 head(anovadata, n=10)
 
+#calls_out : outgoing calls
+#callsout_out : outgoing calls without oitliers
+
+#boxplot
 boxplot(anovadata$calls_out ~ anovadata$d_type)
 boxplot(anovadata$calls_out ~ anovadata$t_levels)
 
-#------------------------------------------------------------------------------------------------------------------------#
-#ANOVA using Type I Sums of Squares and Weighted Means
-#------------------------------------------------------------------------------------------------------------------------#
+#side-by-side boxplots
+par(mfrow = c(1,2))
+plot(calls_out ~ t_levels + d_type, data = anovadata)
+#Interaction plot
+interaction(anovadata$t_evels, anovadata$d_type,anovadata$calls_out)
 
 # Derive the weighted means for each treatment group: day type: workdays, weekends; temperature levels: high, medium, low
 #subset (data) to filter data by each treatment group
@@ -41,20 +51,50 @@ mean(high$calls_out)#1.34138
 mean(medium$calls_out)#1.393334 
 mean(low$calls_out)#1.388347
 
+#---------------------------#
+#ANOVA assumptions
+#---------------------------#
+
+library(stats)
+library(fitdistrplus)
+#1. Each group sample is drawn from a normally distributed population
+plotdist(anovadata$calls_out, histo = TRUE, demp = TRUE)
+qqnorm(anovadata$calls_out)
+
+#2.All populations have a common variance
+#variances
+var(workdays$calls_out)#5.001374 . more calls during the workdays
+var(weekends$calls_out)#4.273476 :less calls during the weekends
+var(high$calls_out)#4.808997
+var(medium$calls_out)#4.834485
+var(low$calls_out)#4.805754
+
+#3. Other:
+#All samples are drawn independently of each other
+#Within each sample, the observations are sampled randomly and independently of each other
+#Factor effects are additive
+
+
+
+#------------------------------------------------------------------------------------------------------------------------#
+#ANOVA using Type I Sums of Squares and Weighted Means
+#------------------------------------------------------------------------------------------------------------------------#
 #use anova(object) to execute the Type I SS ANOVAs
+
+
 #day type ANOVA
-anova(lm(calls_out ~ d_type * t_levels, anovadata))
+anova(lm(callsout_out ~ d_type * t_levels, anovadata))
 #----------------------------------------------------------------
 #Analysis of Variance Table
 
-#Response: calls_out
-#                      Df   Sum Sq Mean Sq   F value    Pr(>F)    
-#d_type                1   275279  275279 57191.779 < 2.2e-16 ***
-#t_levels              5     1748     350    72.613 < 2.2e-16 ***
-#d_type:t_levels       4     6900    1725   358.405 < 2.2e-16 ***
-#Residuals       7331329 35287579       5                        
-#---
-#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# Response: calls_out
+#                         Df   Sum Sq Mean Sq   F value    Pr(>F)    
+#   d_type                1   215324  215324 45004.966 < 2.2e-16 ***
+#   t_levels              3      784     261    54.589 < 2.2e-16 ***
+#   d_type:t_levels       3     3255    1085   226.763 < 2.2e-16 ***
+#   Residuals       7331332 35076413       5                        
+# ---
+#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #----------------------------------------------------------------
 
 #temperature ANOVA
@@ -62,14 +102,14 @@ anova(lm(calls_out ~ t_levels * d_type , anovadata))
 #----------------------------------------------------------------
 #Analysis of Variance Table
 
-#Response: calls_out
-#                     Df   Sum Sq Mean Sq   F value    Pr(>F)    
-#t_levels              5      889     178    36.928 < 2.2e-16 ***
-#d_type                1   276138  276138 57370.203 < 2.2e-16 ***
-#t_levels:d_type       4     6900    1725   358.405 < 2.2e-16 ***
-#Residuals       7331329 35287579       5                        
-#---
-#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# Response: calls_out
+# Df   Sum Sq Mean Sq   F value    Pr(>F)    
+# d_type                1   215324  215324 45004.966 < 2.2e-16 ***
+#   t_levels              3      784     261    54.589 < 2.2e-16 ***
+#   d_type:t_levels       3     3255    1085   226.763 < 2.2e-16 ***
+#   Residuals       7331332 35076413       5                        
+# ---
+#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #----------------------------------------------------------------
 
 #If the null hypothesis is true, you expect F to have a value close to 1.0 most of the time.
@@ -101,16 +141,13 @@ Anova(lm(calls_out ~ t_levels * d_type , anovadata), type = "3", singular.ok = T
 #----------------------------------------------------------------
 #Anova Table (Type III tests)
 
-#Response: calls_out
-#                  Sum Sq      Df   F value    Pr(>F)    
-#(Intercept)        55140       1 11455.932 < 2.2e-16 ***
-#t_levels            3353       5   139.336 < 2.2e-16 ***
-#d_type               286       1    59.392 1.292e-14 ***
-#t_levels:d_type     6900       4   358.405 < 2.2e-16 ***
-#Residuals       35287579 7331329                        
-#---
-#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# Response: calls_out
+#                     Sum Sq      Df  F value    Pr(>F)    
+#   (Intercept)        73031       1 15264.32 < 2.2e-16 ***
+#   t_levels            1574       3   109.63 < 2.2e-16 ***
+#   d_type             13926       1  2910.67 < 2.2e-16 ***
+#   t_levels:d_type     3255       3   226.76 < 2.2e-16 ***
+#   Residuals       35076413 7331332                       
+# ---
+#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #----------------------------------------------------------------
-
-
-
