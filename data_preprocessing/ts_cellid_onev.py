@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+
+"""
+------------------------------------------------------------------------------------------------------------------
+TELECOM OPEN DATA PREPROCESSING
+
+File name: ts_cellid_onev.py
+Description: This script sum values of each variable (messages_in, messages_out, calls_in, calls_out, internet_traffic), 
+ignoring the country code and summing the data by hour. It creates one file for one variable each time you run the script (choose variable on line 77)
+Author:Carolina Arias Munoz
+Date Created: 30/07/2016
+Date Last Modified: 30/07/2016
+Python version: 2.7
+------------------------------------------------------------------------------------------------------------------
+"""
 import csv
 import numpy
 import time
@@ -26,8 +40,9 @@ records = nrows
 
 out = {}
 
-#-----------------------------------------------------------------------------------------------------     
-data_path = '/media/sf_2_PhD_2013_-2014/2PhD_WorkDocs/PhD_big-data/data/sms-call-internet-mi/'
+#----------------------------------------------------------------------------------------------------- 
+#imput folder most contain oiginal csv files from telecom open data. In this case we have only data for december    
+data_path = '/media/sf_2_PhD_2013_-2014/1PhD_WorkDocs/PhD_Data-calculations/data/sms-call-internet-mi/12alldata_dic/'
 #data_path = "D:\OneDrive for Business\Dropbox\2_PhD 2013 -2014\2PhD_WorkDocs\PhD_big-data\data\sms-call-internet-mi"
 data_files = glob.glob(data_path + '*.txt')
 
@@ -98,37 +113,25 @@ print 'Writing files...'
 
 #-----------------------------------------------------------------------------------------------------     
 
-
-
-
-
 # Write the files
+fcount = 0
 
 for date_time in sorted(out):
 
-  fcount = 0
+  #assert len(out[date_time]) == records
+  #print out[ts]
 
- # assert len(out[date_time]) == records
+  values = tsv_from_dict(out)
+  filename = ''.join(['/media/sf_2_PhD_2013_-2014/1PhD_WorkDocs/PhD_Data-calculations/data/wundermap/nov_dic_2013/csv/', 'callsout_dic', '.tsv'])
 
-#  print out[ts]
-#
-#  values = tsv_from_dict(out)
-#  filename = ''.join(['/media/sf_2_PhD_2013_-2014/2PhD_WorkDocs/PhD_big-data/data/sms-call-internet-mi/inputs/ts_cellid_value/', 'callsout_26Nov', '.tsv'])
-#  #filename = ''.join(["D:\OneDrive for Business\Dropbox\2_PhD 2013 -2014\2PhD_WorkDocs\PhD_big-data\data\sms-call-internet-mi\inputs\ts_cellid_value", 'calls_in', '.tsv'])
-#
-#  if fcount == 0:
-#    f = open(filename, 'w')
-#  else:
-#    f = open(filename, 'a')
-#    
-#  f.write(values)
-#  f.close()
-#  
-#  fcount += 1
-#  print fcount,'timestamp added to the file...'
+  if fcount == 0:
+    f = open(filename, 'w')
+  else:
+    f = open(filename, 'a')
+    
+  f.write(values)
+  f.close()
+  
+  fcount += 1
+  print fcount,'timestamp added to the file...'
 print "Done"
-
-
-
-
-
